@@ -2,15 +2,15 @@ apply plugin: 'com.android.library'
 // add plugin
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
-version = '1.0.0'
+version = '1.0.2'
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
 
-
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -28,13 +28,13 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation group: 'com.googlecode.plist', name: 'dd-plist', version: '1.20'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile group: 'com.googlecode.plist', name: 'dd-plist', version: '1.20'
 
 }
 
@@ -114,9 +114,9 @@ bintray {
         issueTrackerUrl = 'https://github.com/xujixiao/CustomEmojiLayout.git'
         publicDownloadNumbers = true
         version {
-            name = '1.0.0'
+            name = '1.0.2'
             desc = 'emoji'
-            vcsTag = '1.0.0'
+            vcsTag = '1.0.2'
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }

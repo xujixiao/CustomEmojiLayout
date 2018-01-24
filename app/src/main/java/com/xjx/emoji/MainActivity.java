@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextView = findViewById(R.id.tv_emoji);
-        EmotionLayout emojiLayout = findViewById(R.id.emoji);
+        mTextView = (TextView) findViewById(R.id.tv_emoji);
+        EmotionLayout emojiLayout = (EmotionLayout) findViewById(R.id.emoji);
         emojiLayout.setOnItemClickListener(new EmotionLayout.ICallBackItem() {
             @Override
             public void onItemClick(String emojiText) {
