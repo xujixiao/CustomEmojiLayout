@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
-
+// add plugin
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+version = '1.0.0'
 android {
     compileSdkVersion 26
 
@@ -31,6 +34,100 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile group:'com.googlecode.plist', name:'dd-plist', version:'1.20'
+    implementation group: 'com.googlecode.plist', name: 'dd-plist', version: '1.20'
 
 }
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+group = 'com.xjxemoji'
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId 'com.xjxemoji' //自己定义的组名
+            artifactId 'emojilibrary'
+
+            name 'emojilibrary'
+            description 'emoji'
+            url 'https://github.com/xujixiao/CustomEmojiLayout.git'
+            inceptionYear '2016'
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection 'https://github.com/xujixiao/CustomEmojiLayout.git'
+                url 'https://github.com/xujixiao/CustomEmojiLayout.git'
+
+            }
+            developers {
+                developer {
+                    name 'xujixiao'
+                    email '1107313740@qq.com'
+                }
+            }
+        }
+
+    }
+}
+
+// Bintray
+
+//获取local.propertes的信息
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publish = true
+    configurations = ['archives']
+    pkg {
+        //填入 bintray 上对应的 package 信息
+        repo = 'maven'
+        name = 'xjxemoji'
+        vcsUrl = 'https://github.com/xujixiao/CustomEmojiLayout.git'
+        websiteUrl = 'https://github.com/xujixiao/CustomEmojiLayout.git'
+        licenses = ['Apache-2.0']
+        issueTrackerUrl = 'https://github.com/xujixiao/CustomEmojiLayout.git'
+        publicDownloadNumbers = true
+        version {
+            name = '1.0.0'
+            desc = 'emoji'
+            vcsTag = '1.0.0'
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task findConventions << {
+    println project.getConvention()
+}
+//gradlew install
+/*gradlew bintrayUpload*/
