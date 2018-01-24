@@ -1,0 +1,4 @@
+# CustomEmojiLayout
+自定义的一个通过解析plist文件的emoji表情控件
+直接在xml布局中写入emotionlayout控件；
+
